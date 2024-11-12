@@ -1,6 +1,5 @@
 #include <WiFi.h>
 #include "DHT.h"
-#include "time.h"
 #include <BlynkSimpleEsp32.h>
 
 // Sensor and Pin Definitions
@@ -11,8 +10,8 @@
 #define LDR_PIN 32           // Analog pin for the LDR sensor
 
 // Wi-Fi credentials
-const char* ssid     = "ZARA";
-const char* password = "perkyjoe";
+const char* ssid     = "WIFI NAME";
+const char* password = "Password";
 
 // Blynk credentials
 #define BLYNK_TEMPLATE_ID "TMPL3jcrPQ-pL"
@@ -21,10 +20,6 @@ const char* password = "perkyjoe";
 
 WiFiServer server(80);
 DHT dht(DHT_PIN, DHT_TYPE);
-
-const char* ntpServer = "pool.ntp.org";
-const long gmtOffset_sec = 19800;         // IST timezone offset (+5:30)
-const int daylightOffset_sec = 0;
 
 // Lighting thresholds
 const int nightThreshold = 500;
@@ -51,22 +46,8 @@ void setup() {
     Serial.println(WiFi.localIP());
     server.begin();
 
-    // Initialize NTP time
-    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-
     // Initialize Blynk
     Blynk.begin(BLYNK_AUTH_TOKEN, ssid, password);
-}
-
-String getCurrentDate() {
-    struct tm timeinfo;
-    if (!getLocalTime(&timeinfo)) {
-        Serial.println("Failed to obtain time");
-        return "No Time";
-    }
-    char dateString[20];
-    strftime(dateString, sizeof(dateString), "%d %b %Y", &timeinfo); 
-    return String(dateString);
 }
 
 int readMQ3() {
@@ -143,7 +124,7 @@ void loop() {
         client.println("<!DOCTYPE HTML>");
         client.println("<html><head><title>ESP32 Weather Report</title>");
         client.println("<style>");
-        //client.println("body { background: url('https://indoafrica.allegiance-educare.in/storage/uploads/colleges/1417413747Capture1.JPG') no-repeat center center fixed; background-size: cover; color: white; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }");
+        // client.println("body { background: url('https://indoafrica.allegiance-educare.in/storage/uploads/colleges/1417413747Capture1.JPG') no-repeat center center fixed; background-size: cover; color: white; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }");
         client.println("h1 { font-size: 2em; text-align: center; }");
         client.println("p { font-size: 1.2em; margin: 10px; text-align: center; }");
         client.println("</style></head><body>");
