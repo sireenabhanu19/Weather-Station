@@ -1,3 +1,4 @@
+//Include Required Libraries
 #include <WiFi.h>
 #include "DHT.h"
 #include <BlynkSimpleEsp32.h>
@@ -17,7 +18,7 @@ const char* password = "Password";
 #define BLYNK_TEMPLATE_ID "TMPL3jcrPQ-pL"
 #define BLYNK_TEMPLATE_NAME "sample"
 #define BLYNK_AUTH_TOKEN "mkB-3gNMQgRv5q75mDsUlzvSV1WyedWT"
-
+//Object Initialization
 WiFiServer server(80);
 DHT dht(DHT_PIN, DHT_TYPE);
 
